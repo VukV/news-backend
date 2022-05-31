@@ -3,7 +3,7 @@ package com.example.vvukovic9420rn_projekat.repositories;
 import java.sql.*;
 import java.util.Optional;
 
-public class Postgres {
+abstract public class Postgres {
 
     public Postgres(){
         try {
