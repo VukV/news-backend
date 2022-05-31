@@ -1,4 +1,4 @@
-package com.example.vvukovic9420rn_projekat.entities;
+package com.vvukovic9420rn_projekat.entities;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 public class User {
 
     private Integer id;
+
+    @NotNull @NotEmpty
+    private String password;
 
     @NotNull @NotEmpty @Email
     private String email;

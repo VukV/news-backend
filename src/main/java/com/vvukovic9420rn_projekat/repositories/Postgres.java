@@ -1,4 +1,4 @@
-package com.example.vvukovic9420rn_projekat.repositories;
+package com.vvukovic9420rn_projekat.repositories;
 
 import java.sql.*;
 import java.util.Optional;

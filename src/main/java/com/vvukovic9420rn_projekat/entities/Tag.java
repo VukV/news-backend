@@ -1,4 +1,4 @@
-package com.example.vvukovic9420rn_projekat.entities;
+package com.vvukovic9420rn_projekat.entities;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
