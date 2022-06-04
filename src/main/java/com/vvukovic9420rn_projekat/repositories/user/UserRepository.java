@@ -9,6 +9,6 @@ public interface UserRepository {
     List<User> getAllUsers(Integer page);
     void addUser(User user);
     void updateUser(User user);
-    User changeStatusById(Integer id);
+    void changeStatusById(Integer id, Boolean status);
 
 }
