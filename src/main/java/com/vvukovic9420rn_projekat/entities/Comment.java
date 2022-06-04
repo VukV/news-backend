@@ -2,6 +2,7 @@ package com.vvukovic9420rn_projekat.entities;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 public class Comment {
 
@@ -15,14 +16,17 @@ public class Comment {
     @NotNull @NotEmpty
     private String content;
 
+    private Date date;
+
     public Comment() {
     }
 
-    public Comment(Integer id, Integer articleId, String author, String content) {
+    public Comment(Integer id, Integer articleId, String author, String content, Date date) {
         this.id = id;
         this.articleId = articleId;
         this.author = author;
         this.content = content;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -55,5 +59,13 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
