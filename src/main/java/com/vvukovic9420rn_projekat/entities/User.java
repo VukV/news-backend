@@ -20,16 +20,20 @@ public class User {
 
     @NotNull @NotEmpty
     private String type;
+    @NotNull
+    private Boolean isActive;
 
     public User() {
     }
 
-    public User(Integer id, String email, String name, String surname, String type) {
+    public User(Integer id, String password, String email, String name, String surname, String type, Boolean isActive) {
         this.id = id;
+        this.password = password;
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.type = type;
+        this.isActive = isActive;
     }
 
     public Integer getId() {
@@ -70,5 +74,21 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

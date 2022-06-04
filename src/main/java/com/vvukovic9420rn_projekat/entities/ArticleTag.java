@@ -4,8 +4,6 @@ import javax.validation.constraints.NotNull;
 
 public class ArticleTag {
 
-    private Integer id;
-
     @NotNull
     private Integer articleId;
     @NotNull
@@ -14,18 +12,9 @@ public class ArticleTag {
     public ArticleTag(){
     }
 
-    public ArticleTag(Integer id, Integer articleId, Integer tagId) {
-        this.id = id;
+    public ArticleTag(Integer articleId, Integer tagId) {
         this.articleId = articleId;
         this.tagId = tagId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getArticleId() {
