@@ -3,12 +3,15 @@ package com.vvukovic9420rn_projekat.repositories.articletag;
 import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.ArticleTag;
 import com.vvukovic9420rn_projekat.entities.Tag;
+import com.vvukovic9420rn_projekat.entities.User;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PgArticleTagRepository extends Postgres implements ArticleTagRepository {
@@ -40,11 +43,65 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
 
     @Override
     public List<Tag> getTagsFromArticle(Integer articleId) {
-        return null;
+        List<Tag> tags = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM tags INNER JOIN article_tag a on tags.id = a.tag_id AND a.article_id = ?");
+            preparedStatement.setInt(1, articleId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                tags.add(new Tag(resultSet.getInt("id"), resultSet.getString("name")));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return tags;
     }
 
     @Override
     public List<Article> getArticlesFromTag(Integer tagId) {
-        return null;
+        List<Article> articles = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM articles INNER JOIN article_tag a on articles.id = a.article_id AND a.tag_id = ?");
+            preparedStatement.setInt(1, tagId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                articles.add(new Article(resultSet.getInt("id"), resultSet.getInt("user_id"),
+                        resultSet.getInt("category_id"), resultSet.getString("title"),
+                        resultSet.getString("content"), resultSet.getInt("visit_count"),
+                        new Date(resultSet.getDate("date").getTime()))
+                );
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return articles;
     }
 }
