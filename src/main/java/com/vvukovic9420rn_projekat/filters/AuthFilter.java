@@ -5,6 +5,7 @@ import com.vvukovic9420rn_projekat.services.UserService;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.List;
@@ -26,16 +27,31 @@ public class AuthFilter implements ContainerRequestFilter {
             token = token.replace("Bearer ", "");
         }
 
-        //TODO userService auth
+        if (isAdminRequired(containerRequestContext)){
+            if (!userService.isAdmin(token)){
+                containerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+            }
+        }
+        else {
+            if (!userService.isAuthorized(token)) {
+                containerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+            }
+        }
     }
 
     private boolean isAuthRequired(ContainerRequestContext requestContext){
-        if (requestContext.getUriInfo().getPath().contains("login")) {
+        if (!requestContext.getUriInfo().getPath().contains("content") && !requestContext.getUriInfo().getPath().contains("admin")) {
             return false;
         }
 
-        //TODO GET ZA NEWS -> RETURN FALSE
-
         return true;
+    }
+
+    private boolean isAdminRequired(ContainerRequestContext requestContext){
+        if (requestContext.getUriInfo().getPath().contains("admin")){
+            return true;
+        }
+
+        return false;
     }
 }

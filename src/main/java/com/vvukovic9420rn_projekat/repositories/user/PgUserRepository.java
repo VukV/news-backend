@@ -44,6 +44,43 @@ public class PgUserRepository extends Postgres implements UserRepository {
     }
 
     @Override
+    public User getUserByEmail(String emailQuery) {
+        User userToReturn = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
+            preparedStatement.setString(1, emailQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String password = resultSet.getString("password");
+                String email = resultSet.getString("email");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                String type = resultSet.getString("type");
+                boolean status = resultSet.getBoolean("status");
+
+                userToReturn = new User(id, password, email, name, surname, type, status);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return userToReturn;
+    }
+
+    @Override
     public void addUser(User user) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

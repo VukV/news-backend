@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserRepository {
 
     List<User> getAllUsers(Integer page);
+    User getUserByEmail(String email);
     void addUser(User user);
     void updateUser(User user);
     void changeStatusById(Integer id, Boolean status);
