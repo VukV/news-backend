@@ -6,10 +6,14 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.vvukovic9420rn_projekat.entities.User;
 import com.vvukovic9420rn_projekat.repositories.user.UserRepository;
+import com.vvukovic9420rn_projekat.requests.ChangeUserStatusRequest;
+import com.vvukovic9420rn_projekat.requests.CreateUserRequest;
+import com.vvukovic9420rn_projekat.requests.UpdateUserRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
 public class UserService {
 
@@ -75,5 +79,38 @@ public class UserService {
         else {
             return false;
         }
+    }
+
+    public List<User> getAllUsers(int page){
+        return userRepository.getAllUsers(page);
+    }
+
+    public void addUser(CreateUserRequest newUser){
+        String hashedPassword = DigestUtils.sha256Hex(newUser.getPassword());
+
+        User user = new User();
+        user.setPassword(hashedPassword);
+        user.setActive(true);
+        user.setName(newUser.getName());
+        user.setSurname(newUser.getSurname());
+        user.setType(newUser.getType());
+        user.setEmail(newUser.getEmail());
+
+        userRepository.addUser(user);
+    }
+
+    public void updateUser(UpdateUserRequest updateUser){
+        User user = new User();
+        user.setEmail(updateUser.getEmail());
+        user.setName(updateUser.getName());
+        user.setSurname(updateUser.getSurname());
+        user.setType(updateUser.getType());
+        user.setId(updateUser.getId());
+
+        userRepository.updateUser(user);
+    }
+
+    public void changeUserStatus(ChangeUserStatusRequest userStatus){
+        userRepository.changeStatusById(userStatus.getUserId(), !userStatus.getStatus());
     }
 }

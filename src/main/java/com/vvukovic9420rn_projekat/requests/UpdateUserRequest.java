@@ -1,39 +1,31 @@
-package com.vvukovic9420rn_projekat.entities;
+package com.vvukovic9420rn_projekat.requests;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class User {
-
-    private Integer id;
+public class UpdateUserRequest {
 
     @NotNull
-    private String password;
+    private Integer id;
 
-    @NotNull @NotEmpty @Email
+    @NotNull @NotEmpty
     private String email;
     @NotNull @NotEmpty
     private String name;
     @NotNull @NotEmpty
     private String surname;
-
     @NotNull @NotEmpty
     private String type;
-    @NotNull
-    private Boolean isActive;
 
-    public User() {
+    public UpdateUserRequest() {
     }
 
-    public User(Integer id, String password, String email, String name, String surname, String type, Boolean isActive) {
+    public UpdateUserRequest(Integer id, String email, String name, String surname, String type) {
         this.id = id;
-        this.password = password;
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.type = type;
-        this.isActive = isActive;
     }
 
     public Integer getId() {
@@ -74,21 +66,5 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
     }
 }

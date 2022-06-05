@@ -119,13 +119,12 @@ public class PgUserRepository extends Postgres implements UserRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("UPDATE users SET email=?, name=?, surname=?, type=?, status=? WHERE id = ?");
+            preparedStatement = connection.prepareStatement("UPDATE users SET email=?, name=?, surname=?, type=? WHERE id = ?");
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setString(3, user.getSurname());
             preparedStatement.setString(4, user.getType());
-            preparedStatement.setBoolean(5, user.getActive());
-            preparedStatement.setInt(6, user.getId());
+            preparedStatement.setInt(5, user.getId());
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
@@ -148,7 +147,7 @@ public class PgUserRepository extends Postgres implements UserRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("UPDATE users SET status=? WHERE id = ?");
+            preparedStatement = connection.prepareStatement("UPDATE users SET status=? WHERE id = ? AND type='Creator'");
             preparedStatement.setBoolean(1, status);
             preparedStatement.setInt(2, id);
 
