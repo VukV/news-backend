@@ -12,4 +12,6 @@ public interface ArticleTagRepository {
 
     List<Tag> getTagsFromArticle(Integer articleId);
     List<Article> getArticlesFromTag(Integer tagId, Integer page);
+
+    void deleteArticle(Integer articleId);
 }

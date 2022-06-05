@@ -5,6 +5,7 @@ import com.vvukovic9420rn_projekat.services.ArticleService;
 import com.vvukovic9420rn_projekat.services.CategoryService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,7 +27,7 @@ public class CategoryResource {
     @POST
     @Path("/content")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCategory(Category category){
+    public Response addCategory(@Valid Category category){
         categoryService.addCategory(category);
         return Response.status(200).build();
     }
@@ -34,7 +35,7 @@ public class CategoryResource {
     @PUT
     @Path("/content")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCategory(Category category){
+    public Response updateCategory(@Valid Category category){
         categoryService.updateCategory(category);
         return Response.status(200).build();
     }
@@ -42,8 +43,8 @@ public class CategoryResource {
     @DELETE
     @Path("/content/{id}")
     public Response deleteCategory(@PathParam("id") Integer id){
-        //TODO
-        return Response.status(200).build();
+        int status = categoryService.deleteCategory(id);
+        return Response.status(status).build();
     }
 
 }

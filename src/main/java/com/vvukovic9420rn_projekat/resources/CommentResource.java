@@ -4,6 +4,7 @@ import com.vvukovic9420rn_projekat.entities.Comment;
 import com.vvukovic9420rn_projekat.services.CommentService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ public class CommentResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addComment(Comment comment){
+    public Response addComment(@Valid Comment comment){
         commentService.addComment(comment);
         return Response.status(200).build();
     }

@@ -105,4 +105,26 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
 
         return articles;
     }
+
+    @Override
+    public void deleteArticle(Integer articleId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("DELETE FROM article_tag WHERE article_id = ?");
+            preparedStatement.setInt(1, articleId);
+            resultSet = preparedStatement.executeQuery();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+    }
 }

@@ -4,6 +4,6 @@ import com.vvukovic9420rn_projekat.entities.Tag;
 
 public interface TagRepository {
 
-    void addTag(Tag tag);
+    Tag addTag(Tag tag);
     Tag getTagByName(String name);
 }

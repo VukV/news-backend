@@ -3,8 +3,10 @@ package com.vvukovic9420rn_projekat.requests;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class CreateArticleRequest {
+public class UpdateArticleRequest {
 
+    @NotNull
+    private Integer id;
     @NotNull
     private Integer userId;
     @NotNull
@@ -17,7 +19,24 @@ public class CreateArticleRequest {
     @NotNull @NotEmpty
     private String tags;
 
-    public CreateArticleRequest() {
+    public UpdateArticleRequest() {
+    }
+
+    public UpdateArticleRequest(Integer id, Integer userId, Integer categoryId, String title, String content, String tags) {
+        this.id = id;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.content = content;
+        this.tags = tags;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getUserId() {

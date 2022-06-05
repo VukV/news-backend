@@ -83,7 +83,7 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
     }
 
     @Override
-    public void addArticle(Article article) {
+    public Article addArticle(Article article) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -98,10 +98,17 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
             preparedStatement.setInt(2, article.getCategoryId());
             preparedStatement.setString(3, article.getTitle());
             preparedStatement.setString(4, article.getContent());
-            preparedStatement.setDate(5, new java.sql.Date(article.getDate().getTime()));
+
+            Date date = new Date();
+            preparedStatement.setDate(5, new java.sql.Date(date.getTime()));
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
+
+            if(resultSet.next()){
+                article.setDate(date);
+                article.setId(resultSet.getInt(1));
+            }
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -110,10 +117,12 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
+
+        return article;
     }
 
     @Override
-    public void updateArticle(Article article) {
+    public Article updateArticle(Article article) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -121,15 +130,20 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("UPDATE articles SET user_id=?, category_id=?, title=?, content=?, date=?");
+            preparedStatement = connection.prepareStatement("UPDATE articles SET user_id=?, category_id=?, title=?, content=? WHERE id=?");
             preparedStatement.setInt(1, article.getUserId());
             preparedStatement.setInt(2, article.getCategoryId());
             preparedStatement.setString(3, article.getTitle());
             preparedStatement.setString(4, article.getContent());
-            preparedStatement.setDate(5, new java.sql.Date(article.getDate().getTime()));
+            preparedStatement.setInt(5, article.getId());
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
+
+            if(resultSet.next()){
+                article.setDate(new Date(resultSet.getDate(6).getTime()));
+                article.setId(resultSet.getInt(1));
+            }
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -138,6 +152,8 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
+
+        return article;
     }
 
     @Override

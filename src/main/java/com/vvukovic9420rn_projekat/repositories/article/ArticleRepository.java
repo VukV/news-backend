@@ -7,8 +7,8 @@ public interface ArticleRepository {
 
     List<Article> getAllArticlesSortedByDate(Integer page);
     List<Article> getAllArticlesByCategorySortedByDate(Integer categoryId, Integer page);
-    void addArticle(Article article);
-    void updateArticle(Article article);
+    Article addArticle(Article article);
+    Article updateArticle(Article article);
     void deleteArticleById(Integer id);
 
     List<Article> getNewestTenArticles();

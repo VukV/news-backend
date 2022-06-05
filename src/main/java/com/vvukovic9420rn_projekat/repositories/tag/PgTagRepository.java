@@ -13,7 +13,7 @@ import java.util.Date;
 public class PgTagRepository extends Postgres implements TagRepository {
 
     @Override
-    public void addTag(Tag tag) {
+    public Tag addTag(Tag tag) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -29,6 +29,10 @@ public class PgTagRepository extends Postgres implements TagRepository {
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
 
+            if(resultSet.next()){
+                tag.setId(resultSet.getInt(1));
+            }
+
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
@@ -36,6 +40,8 @@ public class PgTagRepository extends Postgres implements TagRepository {
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
+
+        return tag;
     }
 
     @Override

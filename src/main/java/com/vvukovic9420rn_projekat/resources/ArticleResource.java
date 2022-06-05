@@ -2,9 +2,11 @@ package com.vvukovic9420rn_projekat.resources;
 
 import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.requests.CreateArticleRequest;
+import com.vvukovic9420rn_projekat.requests.UpdateArticleRequest;
 import com.vvukovic9420rn_projekat.services.ArticleService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,16 +28,16 @@ public class ArticleResource {
     @POST
     @Path("/content")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addArticle(CreateArticleRequest createArticleRequest){
-        //TODO
+    public Response addArticle(@Valid CreateArticleRequest createArticleRequest){
+        articleService.addArticle(createArticleRequest);
         return Response.status(200).build();
     }
 
     @PUT
     @Path("/content")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateArticle(CreateArticleRequest updateArticle){
-        //TODO
+    public Response updateArticle(@Valid UpdateArticleRequest updateArticle){
+        articleService.updateArticle(updateArticle);
         return Response.status(200).build();
     }
 
@@ -72,5 +74,12 @@ public class ArticleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Article getArticleById(@PathParam("id") Integer articleId){
         return articleService.getArticleById(articleId);
+    }
+
+    @GET
+    @Path("/article/tag/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getArticlesByTag(@PathParam("id") Integer articleId, @DefaultValue("1") @QueryParam("page") Integer page){
+        return articleService.getArticlesByTag(articleId, page);
     }
 }

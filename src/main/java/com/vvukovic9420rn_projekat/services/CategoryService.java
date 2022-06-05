@@ -1,6 +1,8 @@
 package com.vvukovic9420rn_projekat.services;
 
+import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.Category;
+import com.vvukovic9420rn_projekat.repositories.article.ArticleRepository;
 import com.vvukovic9420rn_projekat.repositories.category.CategoryRepository;
 
 import javax.inject.Inject;
@@ -10,6 +12,8 @@ public class CategoryService {
 
     @Inject
     private CategoryRepository categoryRepository;
+    @Inject
+    private ArticleRepository articleRepository;
 
     public List<Category> getAllCategories(int page){
         return categoryRepository.getAllCategories(page);
@@ -23,7 +27,15 @@ public class CategoryService {
         categoryRepository.updateCategory(category);
     }
 
-    public void deleteCategory(Integer categoryId){
-        //TODO
+    public int deleteCategory(Integer categoryId){
+        List<Article> articles = articleRepository.getAllArticlesByCategorySortedByDate(categoryId, 1);
+
+        if (!articles.isEmpty()){
+            return 403;
+        }
+        else {
+            categoryRepository.deleteCategoryById(categoryId);
+            return 200;
+        }
     }
 }
