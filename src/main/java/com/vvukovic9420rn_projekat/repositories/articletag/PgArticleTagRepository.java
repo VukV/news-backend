@@ -72,7 +72,7 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
     }
 
     @Override
-    public List<Article> getArticlesFromTag(Integer tagId) {
+    public List<Article> getArticlesFromTag(Integer tagId, Integer page) {
         List<Article> articles = new ArrayList<>();
 
         Connection connection = null;
@@ -82,8 +82,9 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM articles INNER JOIN article_tag a on articles.id = a.article_id AND a.tag_id = ?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM articles INNER JOIN article_tag a on articles.id = a.article_id AND a.tag_id = ? OFFSET (? - 1) * 10 ROWS LIMIT 10");
             preparedStatement.setInt(1, tagId);
+            preparedStatement.setInt(2, page);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

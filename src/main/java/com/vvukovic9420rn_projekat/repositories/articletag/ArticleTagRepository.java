@@ -11,5 +11,5 @@ public interface ArticleTagRepository {
     void addTagToArticle(ArticleTag articleTag);
 
     List<Tag> getTagsFromArticle(Integer articleId);
-    List<Article> getArticlesFromTag(Integer tagId);
+    List<Article> getArticlesFromTag(Integer tagId, Integer page);
 }
