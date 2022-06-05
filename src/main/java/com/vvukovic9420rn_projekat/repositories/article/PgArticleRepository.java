@@ -121,7 +121,7 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("UPDATE articles SET user_id, category_id, title, content, date, visit_count) VALUES(?, ?, ?, ?, ?, 0)");
+            preparedStatement = connection.prepareStatement("UPDATE articles SET user_id=?, category_id=?, title=?, content=?, date=?");
             preparedStatement.setInt(1, article.getUserId());
             preparedStatement.setInt(2, article.getCategoryId());
             preparedStatement.setString(3, article.getTitle());

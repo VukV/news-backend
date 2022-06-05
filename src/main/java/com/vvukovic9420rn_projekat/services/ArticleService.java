@@ -2,6 +2,7 @@ package com.vvukovic9420rn_projekat.services;
 
 import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.repositories.article.ArticleRepository;
+import com.vvukovic9420rn_projekat.repositories.comment.CommentRepository;
 import com.vvukovic9420rn_projekat.requests.CreateArticleRequest;
 
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ public class ArticleService {
 
     @Inject
     private ArticleRepository articleRepository;
+    @Inject
+    private CommentRepository commentRepository;
 
     public List<Article> getAllArticles(Integer page){
         return articleRepository.getAllArticlesSortedByDate(page);
@@ -22,5 +25,14 @@ public class ArticleService {
 
     public void addArticle(CreateArticleRequest createArticleRequest){
 
+    }
+
+    public void updateArticle(CreateArticleRequest updateArticle){
+
+    }
+
+    public void deleteArticle(Integer articleId){
+        articleRepository.deleteArticleById(articleId);
+        commentRepository.deleteCommentsFromArticle(articleId);
     }
 }

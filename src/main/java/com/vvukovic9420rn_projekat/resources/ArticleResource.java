@@ -30,4 +30,19 @@ public class ArticleResource {
         //TODO
         return Response.status(200).build();
     }
+
+    @PUT
+    @Path("/content")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateArticle(CreateArticleRequest updateArticle){
+        //TODO
+        return Response.status(200).build();
+    }
+
+    @DELETE
+    @Path("/content/{id}")
+    public Response deleteArticle(@PathParam("id") Integer id){
+        articleService.deleteArticle(id);
+        return Response.status(200).build();
+    }
 }
