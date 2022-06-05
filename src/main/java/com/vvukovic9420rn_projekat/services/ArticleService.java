@@ -35,4 +35,16 @@ public class ArticleService {
         articleRepository.deleteArticleById(articleId);
         commentRepository.deleteCommentsFromArticle(articleId);
     }
+
+    public List<Article> getNewestArticles(){
+        return articleRepository.getNewestTenArticles();
+    }
+
+    public List<Article> getTopArticles(){
+        return articleRepository.getTopTenArticles();
+    }
+
+    public Article getArticleById(Integer id){
+        return articleRepository.getArticleById(id);
+    }
 }

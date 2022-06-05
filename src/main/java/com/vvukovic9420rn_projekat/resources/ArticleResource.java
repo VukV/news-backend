@@ -45,4 +45,32 @@ public class ArticleResource {
         articleService.deleteArticle(id);
         return Response.status(200).build();
     }
+
+    @GET
+    @Path("/newest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getNewestArticles(){
+        return articleService.getNewestArticles();
+    }
+
+    @GET
+    @Path("/top")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getTopArticles(){
+        return articleService.getTopArticles();
+    }
+
+    @GET
+    @Path("/category/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getArticlesByCategory(@DefaultValue("1") @QueryParam("page") int page, @PathParam("id") Integer categoryId){
+        return articleService.getArticlesByCategory(categoryId, page);
+    }
+
+    @GET
+    @Path("/article/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Article getArticleById(@PathParam("id") Integer articleId){
+        return articleService.getArticleById(articleId);
+    }
 }
