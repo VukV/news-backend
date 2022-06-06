@@ -1,14 +1,12 @@
 package com.vvukovic9420rn_projekat.repositories.article;
 
 import com.vvukovic9420rn_projekat.entities.Article;
-import com.vvukovic9420rn_projekat.entities.Category;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

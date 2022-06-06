@@ -1,6 +1,5 @@
 package com.vvukovic9420rn_projekat.requests;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class ChangeUserStatusRequest {

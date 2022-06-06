@@ -1,7 +1,6 @@
 package com.vvukovic9420rn_projekat.repositories.category;
 
 import com.vvukovic9420rn_projekat.entities.Category;
-import com.vvukovic9420rn_projekat.entities.User;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
 import java.sql.Connection;

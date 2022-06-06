@@ -15,7 +15,7 @@ public class CommentService {
         return commentRepository.getCommentsFromArticle(articleId);
     }
 
-    public void addComment(Comment comment){
-        commentRepository.addComment(comment);
+    public Comment addComment(Comment comment){
+        return commentRepository.addComment(comment);
     }
 }

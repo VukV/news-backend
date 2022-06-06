@@ -3,7 +3,6 @@ package com.vvukovic9420rn_projekat.repositories.articletag;
 import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.ArticleTag;
 import com.vvukovic9420rn_projekat.entities.Tag;
-import com.vvukovic9420rn_projekat.entities.User;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
 import java.sql.Connection;

@@ -40,7 +40,6 @@ public class NewsApplication extends ResourceConfig {
                 this.bindAsContract(ArticleTagService.class);
                 this.bindAsContract(CategoryService.class);
                 this.bindAsContract(CommentService.class);
-                this.bindAsContract(TagService.class);
                 this.bindAsContract(UserService.class);
             }
         };

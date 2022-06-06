@@ -1,6 +1,5 @@
 package com.vvukovic9420rn_projekat.repositories.tag;
 
-import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.Tag;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
@@ -8,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class PgTagRepository extends Postgres implements TagRepository {
 

@@ -1,6 +1,5 @@
 package com.vvukovic9420rn_projekat.services;
 
-import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.Category;
 import com.vvukovic9420rn_projekat.repositories.article.ArticleRepository;
 import com.vvukovic9420rn_projekat.repositories.category.CategoryRepository;

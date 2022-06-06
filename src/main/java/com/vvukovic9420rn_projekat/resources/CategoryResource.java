@@ -1,7 +1,6 @@
 package com.vvukovic9420rn_projekat.resources;
 
 import com.vvukovic9420rn_projekat.entities.Category;
-import com.vvukovic9420rn_projekat.services.ArticleService;
 import com.vvukovic9420rn_projekat.services.CategoryService;
 
 import javax.inject.Inject;
