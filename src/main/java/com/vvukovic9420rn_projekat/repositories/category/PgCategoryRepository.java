@@ -98,24 +98,29 @@ public class PgCategoryRepository extends Postgres implements CategoryRepository
     }
 
     @Override
-    public void deleteCategoryById(Integer id) {
+    public boolean deleteCategoryById(Integer id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        int count = 0;
 
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("DELETE FROM categories WHERE id = ?");
+            //DELETE FROM categories WHERE id = ? AND WHERE id NOT IN (SELECT category_id FROM posts WHERE category_id = ?)
+            preparedStatement = connection.prepareStatement("DELETE FROM categories WHERE id = ? AND id NOT IN (SELECT category_id FROM articles WHERE category_id = ?)");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            count = preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
-            this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
+
+        if(count == 0){
+            return false;
+        }
+        return true;
     }
 }

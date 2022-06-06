@@ -9,5 +9,5 @@ public interface CategoryRepository {
     List<Category> getAllCategories(Integer page);
     void addCategory(Category category);
     void updateCategory(Category category);
-    void deleteCategoryById(Integer id);
+    boolean deleteCategoryById(Integer id);
 }

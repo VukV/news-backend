@@ -27,15 +27,7 @@ public class CategoryService {
         categoryRepository.updateCategory(category);
     }
 
-    public int deleteCategory(Integer categoryId){
-        List<Article> articles = articleRepository.getAllArticlesByCategorySortedByDate(categoryId, 1);
-
-        if (!articles.isEmpty()){
-            return 403;
-        }
-        else {
-            categoryRepository.deleteCategoryById(categoryId);
-            return 200;
-        }
+    public boolean deleteCategory(Integer categoryId){
+        return categoryRepository.deleteCategoryById(categoryId);
     }
 }

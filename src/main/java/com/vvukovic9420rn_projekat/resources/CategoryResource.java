@@ -43,8 +43,12 @@ public class CategoryResource {
     @DELETE
     @Path("/content/{id}")
     public Response deleteCategory(@PathParam("id") Integer id){
-        int status = categoryService.deleteCategory(id);
-        return Response.status(status).build();
+        boolean isDeleted = categoryService.deleteCategory(id);
+
+        if(isDeleted){
+            return Response.status(200).build();
+        }
+        return Response.status(403).build();
     }
 
 }
