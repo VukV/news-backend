@@ -1,5 +1,9 @@
 package com.vvukovic9420rn_projekat.services;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.ArticleTag;
 import com.vvukovic9420rn_projekat.entities.Tag;
@@ -32,10 +36,10 @@ public class ArticleService {
         return articleRepository.getAllArticlesByCategorySortedByDate(id, page);
     }
 
-    public void addArticle(CreateArticleRequest createArticleRequest){
+    public void addArticle(CreateArticleRequest createArticleRequest, String token){
         Article article = new Article();
         article.setCategoryId(createArticleRequest.getCategoryId());
-        article.setUserId(createArticleRequest.getUserId());
+        article.setUserId(getUserId(token));
         article.setTitle(createArticleRequest.getTitle());
         article.setContent(createArticleRequest.getContent());
 
@@ -64,7 +68,6 @@ public class ArticleService {
         Article article = new Article();
         article.setId(updateArticle.getId());
         article.setCategoryId(updateArticle.getCategoryId());
-        article.setUserId(updateArticle.getUserId());
         article.setTitle(updateArticle.getTitle());
         article.setContent(updateArticle.getContent());
 
@@ -109,5 +112,13 @@ public class ArticleService {
 
     public List<Article> getArticlesByTag(Integer articleId, Integer page){
         return articleTagRepository.getArticlesFromTag(articleId, page);
+    }
+
+    private int getUserId(String token){
+        Algorithm algorithm = Algorithm.HMAC256(UserService.JWT_SECRET);
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT jwt = verifier.verify(token);
+
+        return jwt.getClaim("userId").asInt();
     }
 }

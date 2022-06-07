@@ -20,8 +20,10 @@ public class PgUserRepository extends Postgres implements UserRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM users OFFSET (? - 1) * 10 ROWS LIMIT 10");
-            preparedStatement.setInt(1, page);
+            int offset = (page - 1) * 10;
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM users OFFSET ? ROWS LIMIT 10");
+            preparedStatement.setInt(1, offset);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -91,12 +93,13 @@ public class PgUserRepository extends Postgres implements UserRepository {
 
             String[] generatedColumns = {"id"};
 
-            preparedStatement = connection.prepareStatement("INSERT INTO users (email, name, surname, type, status) VALUES(?, ?, ?, ?, ?)", generatedColumns);
+            preparedStatement = connection.prepareStatement("INSERT INTO users (email, name, surname, type, status, password) VALUES(?, ?, ?, ?, ?, ?)", generatedColumns);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setString(3, user.getSurname());
             preparedStatement.setString(4, user.getType());
-            preparedStatement.setBoolean(5, user.getActive());
+            preparedStatement.setBoolean(5, true);
+            preparedStatement.setString(6, user.getPassword());
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();

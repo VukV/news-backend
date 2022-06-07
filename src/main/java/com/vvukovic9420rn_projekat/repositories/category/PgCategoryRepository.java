@@ -23,8 +23,40 @@ public class PgCategoryRepository extends Postgres implements CategoryRepository
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM categories OFFSET (? - 1) * 10 ROWS LIMIT 10");
-            preparedStatement.setInt(1, page);
+            int offset = (page - 1) * 10;
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM categories OFFSET ? ROWS LIMIT 10");
+            preparedStatement.setInt(1, offset);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                categories.add(new Category(resultSet.getInt("id"), resultSet.getString("name"),
+                        resultSet.getString("description"))
+                );
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return categories;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM categories");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -108,6 +140,7 @@ public class PgCategoryRepository extends Postgres implements CategoryRepository
             //DELETE FROM categories WHERE id = ? AND WHERE id NOT IN (SELECT category_id FROM posts WHERE category_id = ?)
             preparedStatement = connection.prepareStatement("DELETE FROM categories WHERE id = ? AND id NOT IN (SELECT category_id FROM articles WHERE category_id = ?)");
             preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
             count = preparedStatement.executeUpdate();
 
         } catch (SQLException e){

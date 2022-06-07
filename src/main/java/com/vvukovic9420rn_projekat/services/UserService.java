@@ -17,7 +17,7 @@ import java.util.List;
 
 public class UserService {
 
-    private static final String JWT_SECRET = "wp_secret_key";
+    public static final String JWT_SECRET = "wp_secret_key";
 
     @Inject
     private UserRepository userRepository;
@@ -40,6 +40,7 @@ public class UserService {
                 .withExpiresAt(expiresAt)
                 .withSubject(email)
                 .withClaim("type", user.getType())
+                .withClaim("userId", user.getId())
                 .sign(algorithm);
     }
 

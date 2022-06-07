@@ -8,8 +8,6 @@ public class UpdateArticleRequest {
     @NotNull
     private Integer id;
     @NotNull
-    private Integer userId;
-    @NotNull
     private Integer categoryId;
 
     @NotNull @NotEmpty
@@ -22,9 +20,8 @@ public class UpdateArticleRequest {
     public UpdateArticleRequest() {
     }
 
-    public UpdateArticleRequest(Integer id, Integer userId, Integer categoryId, String title, String content, String tags) {
+    public UpdateArticleRequest(Integer id, Integer categoryId, String title, String content, String tags) {
         this.id = id;
-        this.userId = userId;
         this.categoryId = categoryId;
         this.title = title;
         this.content = content;
@@ -37,14 +34,6 @@ public class UpdateArticleRequest {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getCategoryId() {

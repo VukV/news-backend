@@ -6,8 +6,6 @@ import javax.validation.constraints.NotNull;
 public class CreateArticleRequest {
 
     @NotNull
-    private Integer userId;
-    @NotNull
     private Integer categoryId;
 
     @NotNull @NotEmpty
@@ -18,14 +16,6 @@ public class CreateArticleRequest {
     private String tags;
 
     public CreateArticleRequest() {
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getCategoryId() {

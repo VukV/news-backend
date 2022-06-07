@@ -28,8 +28,10 @@ public class ArticleResource {
     @POST
     @Path("/content")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addArticle(@Valid CreateArticleRequest createArticleRequest){
-        articleService.addArticle(createArticleRequest);
+    public Response addArticle(@Valid CreateArticleRequest createArticleRequest, @HeaderParam("Authorization") String token){
+        token = token.replace("Bearer ", "");
+
+        articleService.addArticle(createArticleRequest, token);
         return Response.status(200).build();
     }
 

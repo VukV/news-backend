@@ -49,7 +49,7 @@ public class UserResource {
     @Path("/admin")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(@Valid CreateUserRequest newUser){
-        if(!newUser.getType().equals("Admin") || !newUser.getType().equals("Creator")){
+        if(!newUser.getType().equals("Admin") && !newUser.getType().equals("Creator")){
             return Response.status(400).build();
         }
 
@@ -65,7 +65,7 @@ public class UserResource {
     @Path("/admin")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateUser(@Valid UpdateUserRequest updateUser){
-        if(!updateUser.getType().equals("Admin") || !updateUser.getType().equals("Creator")){
+        if(!updateUser.getType().equals("Admin") && !updateUser.getType().equals("Creator")){
             return Response.status(400).build();
         }
 

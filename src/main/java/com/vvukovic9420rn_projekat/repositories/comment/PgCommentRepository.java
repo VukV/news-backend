@@ -17,20 +17,18 @@ public class PgCommentRepository extends Postgres implements CommentRepository {
     public void deleteCommentsFromArticle(Integer articleId) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
 
             preparedStatement = connection.prepareStatement("DELETE FROM comments WHERE article_id = ?");
             preparedStatement.setInt(1, articleId);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
-            this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
     }
@@ -46,7 +44,7 @@ public class PgCommentRepository extends Postgres implements CommentRepository {
 
             String[] generatedColumns = {"id"};
 
-            preparedStatement = connection.prepareStatement("INSERT INTO comments (author, content, article_id, date) VALUES(?, ?, ?, ?)", generatedColumns);
+            preparedStatement = connection.prepareStatement("INSERT INTO comments (author, content, article_id, date) VALUES(?, ?, (SELECT id FROM articles WHERE id = ?), ?)", generatedColumns);
             preparedStatement.setString(1, comment.getAuthor());
             preparedStatement.setString(2, comment.getContent());
             preparedStatement.setInt(3, comment.getArticleId());

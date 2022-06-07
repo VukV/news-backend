@@ -24,8 +24,10 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM articles ORDER BY date DESC OFFSET (? - 1) * 10 ROWS LIMIT 10");
-            preparedStatement.setInt(1, page);
+            int offset = (page - 1) * 10;
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM articles ORDER BY date DESC OFFSET ? ROWS LIMIT 10");
+            preparedStatement.setInt(1, offset);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -57,9 +59,11 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM articles WHERE category_id=? ORDER BY date DESC OFFSET (? - 1) * 10 ROWS LIMIT 10");
+            int offset = (page - 1) * 10;
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM articles WHERE category_id=? ORDER BY date DESC OFFSET ? ROWS LIMIT 10");
             preparedStatement.setInt(1, categoryId);
-            preparedStatement.setInt(2, page);
+            preparedStatement.setInt(2, offset);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -128,12 +132,11 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("UPDATE articles SET user_id=?, category_id=?, title=?, content=? WHERE id=?");
-            preparedStatement.setInt(1, article.getUserId());
-            preparedStatement.setInt(2, article.getCategoryId());
-            preparedStatement.setString(3, article.getTitle());
-            preparedStatement.setString(4, article.getContent());
-            preparedStatement.setInt(5, article.getId());
+            preparedStatement = connection.prepareStatement("UPDATE articles SET category_id=?, title=?, content=? WHERE id=?");
+            preparedStatement.setInt(1, article.getCategoryId());
+            preparedStatement.setString(2, article.getTitle());
+            preparedStatement.setString(3, article.getContent());
+            preparedStatement.setInt(4, article.getId());
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
@@ -158,20 +161,18 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
     public void deleteArticleById(Integer id) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
 
             preparedStatement = connection.prepareStatement("DELETE FROM articles WHERE id = ?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
-            this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
     }
@@ -273,7 +274,7 @@ public class PgArticleRepository extends Postgres implements ArticleRepository {
             preparedStatement = connection.prepareStatement("UPDATE articles SET visit_count=? WHERE id = ?");
             preparedStatement.setInt(1, visitCount);
             preparedStatement.setInt(2, id);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
             connection.commit();
 

@@ -26,7 +26,7 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
 
             preparedStatement = connection.prepareStatement("INSERT INTO article_tag (article_id, tag_id) VALUES(?, ?)");
             preparedStatement.setInt(1, articleTag.getArticleId());
-            preparedStatement.setInt(1, articleTag.getTagId());
+            preparedStatement.setInt(2, articleTag.getTagId());
 
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
@@ -81,9 +81,11 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM articles INNER JOIN article_tag a on articles.id = a.article_id AND a.tag_id = ? OFFSET (? - 1) * 10 ROWS LIMIT 10");
+            int offset = (page - 1) * 10;
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM articles INNER JOIN article_tag a on articles.id = a.article_id AND a.tag_id = ? OFFSET ? ROWS LIMIT 10");
             preparedStatement.setInt(1, tagId);
-            preparedStatement.setInt(2, page);
+            preparedStatement.setInt(2, offset);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -109,20 +111,18 @@ public class PgArticleTagRepository extends Postgres implements ArticleTagReposi
     public void deleteArticle(Integer articleId) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             connection = this.newConnection();
 
             preparedStatement = connection.prepareStatement("DELETE FROM article_tag WHERE article_id = ?");
             preparedStatement.setInt(1, articleId);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
             this.closeStatement(preparedStatement);
-            this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
     }

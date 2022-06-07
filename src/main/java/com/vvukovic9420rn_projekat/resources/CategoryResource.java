@@ -17,6 +17,12 @@ public class CategoryResource {
     private CategoryService categoryService;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Category> getAllCategories(){
+        return categoryService.getAllCategories();
+    }
+
+    @GET
     @Path("/content")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Category> getAllCategories(@DefaultValue("1") @QueryParam("page") int page){
