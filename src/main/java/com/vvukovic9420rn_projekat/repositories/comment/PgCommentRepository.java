@@ -57,6 +57,7 @@ public class PgCommentRepository extends Postgres implements CommentRepository {
 
             if (resultSet.next()) {
                 comment.setId(resultSet.getInt(1));
+                comment.setDate(date);
             }
 
         } catch (SQLException e) {
