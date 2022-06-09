@@ -23,6 +23,13 @@ public class CategoryResource {
     }
 
     @GET
+    @Path("/article/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Category getCategoryFromArticle(@PathParam("id") Integer articleId){
+        return categoryService.getCategoryFromArticle(articleId);
+    }
+
+    @GET
     @Path("/content")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Category> getAllCategories(@DefaultValue("1") @QueryParam("page") int page){

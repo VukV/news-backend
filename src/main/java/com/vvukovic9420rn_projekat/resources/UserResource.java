@@ -5,6 +5,7 @@ import com.vvukovic9420rn_projekat.requests.ChangeUserStatusRequest;
 import com.vvukovic9420rn_projekat.requests.CreateUserRequest;
 import com.vvukovic9420rn_projekat.requests.LoginRequest;
 import com.vvukovic9420rn_projekat.requests.UpdateUserRequest;
+import com.vvukovic9420rn_projekat.responses.ArticleCreatorResponse;
 import com.vvukovic9420rn_projekat.services.UserService;
 
 import javax.inject.Inject;
@@ -79,5 +80,12 @@ public class UserResource {
     public Response changeUserStatus(@Valid ChangeUserStatusRequest status){
         userService.changeUserStatus(status);
         return Response.status(200).build();
+    }
+
+    @GET
+    @Path("/user-info/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArticleCreatorResponse getArticleCreator(@PathParam("id") Integer userId){
+        return userService.getArticleCreator(userId);
     }
 }

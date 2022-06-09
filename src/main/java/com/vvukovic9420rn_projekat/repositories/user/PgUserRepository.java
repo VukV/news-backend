@@ -2,6 +2,7 @@ package com.vvukovic9420rn_projekat.repositories.user;
 
 import com.vvukovic9420rn_projekat.entities.User;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
+import com.vvukovic9420rn_projekat.responses.ArticleCreatorResponse;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -164,5 +165,37 @@ public class PgUserRepository extends Postgres implements UserRepository {
             this.closeResultSet(resultSet);
             this.closeConnection(connection);
         }
+    }
+
+    @Override
+    public ArticleCreatorResponse getArticleCreator(Integer id) {
+        ArticleCreatorResponse userToReturn = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT name, surname FROM users WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+
+                userToReturn = new ArticleCreatorResponse(name, surname);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return userToReturn;
     }
 }

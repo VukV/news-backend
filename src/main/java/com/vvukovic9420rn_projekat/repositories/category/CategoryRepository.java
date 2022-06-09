@@ -8,6 +8,7 @@ public interface CategoryRepository {
 
     List<Category> getAllCategories(Integer page);
     List<Category> getAllCategories();
+    Category getCategoryFromArticle(Integer articleId);
     void addCategory(Category category);
     void updateCategory(Category category);
     boolean deleteCategoryById(Integer id);

@@ -1,5 +1,6 @@
 package com.vvukovic9420rn_projekat.repositories.category;
 
+import com.vvukovic9420rn_projekat.entities.Article;
 import com.vvukovic9420rn_projekat.entities.Category;
 import com.vvukovic9420rn_projekat.repositories.Postgres;
 
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PgCategoryRepository extends Postgres implements CategoryRepository {
@@ -73,6 +75,43 @@ public class PgCategoryRepository extends Postgres implements CategoryRepository
         }
 
         return categories;
+    }
+
+    @Override
+    public Category getCategoryFromArticle(Integer articleId) {
+        Category category = null;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = this.newConnection();
+
+            preparedStatement = connection.prepareStatement("SELECT * FROM categories WHERE id = (SELECT category_id FROM articles WHERE articles.id = ?)");
+            preparedStatement.setInt(1, articleId);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String desc = resultSet.getString("description");
+
+                category = new Category(id, name, desc);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            this.closeStatement(preparedStatement);
+            this.closeResultSet(resultSet);
+            this.closeConnection(connection);
+        }
+
+        return category;
     }
 
     @Override

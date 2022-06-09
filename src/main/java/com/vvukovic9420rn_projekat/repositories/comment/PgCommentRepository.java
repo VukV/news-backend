@@ -81,7 +81,7 @@ public class PgCommentRepository extends Postgres implements CommentRepository {
         try {
             connection = this.newConnection();
 
-            preparedStatement = connection.prepareStatement("SELECT * FROM comments WHERE article_id = ?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM comments WHERE article_id = ? ORDER BY date DESC");
             preparedStatement.setInt(1, articleId);
             resultSet = preparedStatement.executeQuery();
 

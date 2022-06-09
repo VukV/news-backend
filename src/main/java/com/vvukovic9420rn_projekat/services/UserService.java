@@ -9,6 +9,7 @@ import com.vvukovic9420rn_projekat.repositories.user.UserRepository;
 import com.vvukovic9420rn_projekat.requests.ChangeUserStatusRequest;
 import com.vvukovic9420rn_projekat.requests.CreateUserRequest;
 import com.vvukovic9420rn_projekat.requests.UpdateUserRequest;
+import com.vvukovic9420rn_projekat.responses.ArticleCreatorResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.inject.Inject;
@@ -113,5 +114,9 @@ public class UserService {
 
     public void changeUserStatus(ChangeUserStatusRequest userStatus){
         userRepository.changeStatusById(userStatus.getUserId(), !userStatus.getStatus());
+    }
+
+    public ArticleCreatorResponse getArticleCreator(Integer userId){
+        return userRepository.getArticleCreator(userId);
     }
 }

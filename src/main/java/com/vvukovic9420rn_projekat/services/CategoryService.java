@@ -22,6 +22,10 @@ public class CategoryService {
         return categoryRepository.getAllCategories();
     }
 
+    public Category getCategoryFromArticle(Integer articleId){
+        return categoryRepository.getCategoryFromArticle(articleId);
+    }
+
     public void addCategory(Category category){
         categoryRepository.addCategory(category);
     }
