@@ -94,8 +94,6 @@ public class ArticleService {
 
     public void deleteArticle(Integer articleId){
         articleRepository.deleteArticleById(articleId);
-        commentRepository.deleteCommentsFromArticle(articleId);
-        articleTagRepository.deleteArticle(articleId);
     }
 
     public List<Article> getNewestArticles(){

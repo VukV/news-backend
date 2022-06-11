@@ -83,6 +83,13 @@ public class UserResource {
     }
 
     @GET
+    @Path("/admin/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserByEmail(@PathParam("email") String email){
+        return userService.getUserByEmail(email);
+    }
+
+    @GET
     @Path("/user-info/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArticleCreatorResponse getArticleCreator(@PathParam("id") Integer userId){

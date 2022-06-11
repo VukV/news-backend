@@ -21,6 +21,10 @@ public class AuthFilter implements ContainerRequestFilter {
             return;
         }
 
+        if(containerRequestContext.getMethod().equals("OPTIONS")){
+            return;
+        }
+
         String token = containerRequestContext.getHeaderString("Authorization");
         if(token != null && token.startsWith("Bearer ")) {
             token = token.replace("Bearer ", "");

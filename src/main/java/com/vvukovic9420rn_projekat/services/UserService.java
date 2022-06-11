@@ -116,6 +116,10 @@ public class UserService {
         userRepository.changeStatusById(userStatus.getUserId(), !userStatus.getStatus());
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.getUserByEmail(email);
+    }
+
     public ArticleCreatorResponse getArticleCreator(Integer userId){
         return userRepository.getArticleCreator(userId);
     }
